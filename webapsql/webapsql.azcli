@@ -1,0 +1,31 @@
+# Set the variable values
+resourceGroupName="myResourceGroup"
+virtualNetworkName="myVirtualNetwork"
+webSubnetName="web"
+webIntegrationSubnetName="web-integration"
+dataSubnetName="data"
+appServicePlanName="myAppServicePlan"
+webAppName="myWebApp"
+sqlServerName="mySqlServer"
+sqlDatabaseName="mySqlDatabase"
+
+# Create the resource group
+az group create --name $resourceGroupName --location <location>
+
+# Create the virtual network
+az network vnet create --name $virtualNetworkName --resource-group $resourceGroupName --address-prefixes 10.0.0.0/16
+
+# Create the subnets
+az network vnet subnet create --name $webSubnetName --vnet-name $virtualNetworkName --resource-group $resourceGroupName --address-prefixes 10.0.1.0/24
+az network vnet subnet create --name $webIntegrationSubnetName --vnet-name $virtualNetworkName --resource-group $resourceGroupName --address-prefixes 10.0.2.0/24
+az network vnet subnet create --name $dataSubnetName --vnet-name $virtualNetworkName --resource-group $resourceGroupName --address-prefixes 10.0.3.0/24
+
+# Create the app service plan
+az appservice plan create --name $appServicePlanName --resource-group $resourceGroupName --sku S1 --is-linux
+
+# Create the web app with private endpoint and virtual network integration
+az webapp create --name $webAppName --resource-group $resourceGroupName --plan $appServicePlanName --vnet-name $virtualNetworkName --subnet $webSubnetName --private-endpoint-connection-name "webAppPrivateEndpoint" --private-endpoint-connection-resource-id <privateEndpointResourceId>
+
+# Create the SQL server and database
+az sql server create --name $sqlServerName --resource-group $resourceGroupName --admin-user myAdminUser --admin-password <adminPassword>
+az sql db create --name $sqlDatabaseName --resource-group $resourceGroupName --server $sqlServerName --edition Basic --service-objective S0
