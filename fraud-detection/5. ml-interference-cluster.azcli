@@ -1,0 +1,6 @@
+# Set your Azure subscription and resource group
+az account set --subscription <subscription_id>
+az configure --defaults group=<resource_group_name>
+
+# Create the inference cluster
+az ml computetarget create aks --name <cluster_name> --aks-vm-size <vm_size> --aks-node-count <node_count> --aks-cluster-name <aks_cluster_name> --aks-namespace <aks_namespace> --aks-service-principal <service_principal_id> --aks-service-principal-secret <service_principal_secret>

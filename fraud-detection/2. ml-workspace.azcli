@@ -1,0 +1,2 @@
+az group create --name <resource-group-name> --location <location>
+az ml workspace create --workspace-name <workspace-name> --resource-group <resource-group-name> --location <location> --sku <sku>

@@ -1,0 +1,10 @@
+# Set variables for your resource group, search service name, and location
+resourceGroupName="my-resource-group"
+searchServiceName="my-search-service"
+location="westus2"
+
+# Create a resource group
+az group create --name $resourceGroupName --location $location
+
+# Create an Azure Cognitive Search instance
+az search service create --name $searchServiceName --resource-group $resourceGroupName --location $location --sku Basic

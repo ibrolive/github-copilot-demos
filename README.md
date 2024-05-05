@@ -4,27 +4,44 @@
 How do I create a scalable Azure AI search infrastructure that uses Kaggle GNN model?
 
 1. **Implementation**
-Using the Azure Machine Learning SDK, train the Kaggle fraud detection GNN model.  
+For the purpose of this project, the IaC tool will be: Azure CLI.  
+For the purpose of this project, the model training SDK will be: Azure Machine Learning SDK.  
+
+Step 1: gnn-model-registration.py
+Using Azure Machine Learning SDK, train the Kaggle fraud detection GNN model.  
 Once the model is trained, save it in a format that can be loaded later.  
+Also suggest appropriate values for the variables.  
 
-Using terraform, create an Azure Machine Learning Workspace.  
+Step 2: ml-workspace.azcli
+Using Azure CLI, create an Azure Machine Learning Workspace.  
 This workspace is the top-level resource for Azure Machine Learning, providing a centralized place to work with all the artifacts to be created later.
+Also suggest appropriate values for the variables.  
 
-Using the Azure Machine Learning SDK, register the GNN model.  
-Upload the trained model to the model registry in the Azure Machine Learning Workspace.
+Step 3: gnn-model-registration.py
+Using Azure Machine Learning SDK, register the GNN model.  
+Upload the trained model to the model registry in the Azure Machine Learning Workspace.  
+Also suggest appropriate values for the variables.  
 
-Using the Azure Machine Learning SDK, create a scoring script.  
+Step 4: scoring-script.py
+Using Azure Machine Learning SDK, create a scoring script.  
 This script will use the registered model to make predictions.  
-It should load the model, take in an input, and output a prediction.
+It should load the model, take in an input, and output a prediction.  
+Also suggest appropriate values for the variables.  
 
-Using terraform, create an Azure Machine Learning Inference Cluster.  
+Step 5: ml-interference-cluster.azcli
+Using Azure CLI, create an Azure Machine Learning Inference Cluster.  
 This is a scalable cluster of machines that can serve out the model.  
+Also suggest appropriate values for the variables.  
 
-Using the Azure Machine Learning SDK, deploy the model as a web service.  
-Use the scoring script and registered model to create a web service on the inference cluster.
+Step 6: model-deployment.py
+Using Azure Machine Learning SDK, deploy the model as a web service.  
+Use the scoring script and registered model to create a web service on the inference cluster.  
+Also suggest appropriate values for the variables.  
 
-Using terraform, create an Azure Cognitive Search instance.  
-This service allows the creation of a search index that can provide sophisticated search capabilities for the data.
+Step 7: cognitive-search.azcli
+Using Azure CLI, create an Azure Cognitive Search instance.  
+This service allows the creation of a search index that can provide sophisticated search capabilities for the data.  
+Also suggest appropriate values for the variables.  
 
 Using the Azure Cognitive Search REST API, create a data source, index, indexer, and skillset in Azure Cognitive Search.  
 The data source connects to the original data.  
