@@ -1,6 +1,19 @@
 # Set your Azure subscription and resource group
-az account set --subscription <subscription_id>
-az configure --defaults group=<resource_group_name>
+subscription_id=$(az account show --query 'id' -o tsv)
+az account set --subscription $subscription_id
+az configure --defaults group=myResourceGroup
+# Create a new Azure resource group
+az group create --name myResourceGroup --location eastus
+
+# Create a new service principal
+az ad sp create-for-rbac --name myAKSServicePrincipal
+
+# Get the ID for the new service principal
+AKS_service_principal_id=$(az ad sp show --id myAKSServicePrincipal --query 'objectId' -o tsv)
+
+# Get the secret for the new service principal
+AKS_service_principal_secret=$(az ad sp credential reset --name myAKSServicePrincipal --query 'password' -o tsv)
 
 # Create the inference cluster
-az ml computetarget create aks --name <cluster_name> --aks-vm-size <vm_size> --aks-node-count <node_count> --aks-cluster-name <aks_cluster_name> --aks-namespace <aks_namespace> --aks-service-principal <service_principal_id> --aks-service-principal-secret <service_principal_secret>
+az ml computetarget create aks --name ml-compute-cluster --aks-vm-size Standard_DS1_v2 --aks-node-count 1 --aks-cluster-name myAKSCluster --aks-namespace myNamespace --aks-service-principal $AKS_service_principal_id --aks-service-principal-secret $AKS_service_principal_secret
+
